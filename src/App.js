@@ -1,8 +1,9 @@
 import React from 'react';
-import Categories from './Components/Components';
+import Categories from './Components/Categories';
 import Header from './Components/Header';
 import Sort from './Components/Sort';
 import PizzaCard from './Components/PizzaCard';
+import pizzas from './assets/pizzas.json';
 import './scss/app.scss';
 
 function App() {
@@ -17,12 +18,9 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <PizzaCard title="Мексиканская" price="350" />
-            <PizzaCard title="Русска" price="150" />
-            <PizzaCard title="Итальянская" price="450" />
-            <PizzaCard title="Любимая" price="550" />
-            <PizzaCard title="Пицца папы" price="650" />
-            <PizzaCard title="Просто ХЗ" price="250" />
+            {pizzas.map((obj) => (
+              <PizzaCard {...obj} />
+            ))}
           </div>
         </div>
       </div>
