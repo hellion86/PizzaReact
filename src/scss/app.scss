@@ -27,7 +27,8 @@ body {
   &__items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    // dont spread pizza!
+    // justify-content: space-between;
   }
 
   &__top {
