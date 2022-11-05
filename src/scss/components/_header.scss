@@ -28,5 +28,17 @@
     p {
       color: #7b7b7b;
     }
+
+    @media (max-width: 665px) {
+      p {
+        display: none;
+      }
+    }
+
+    @media (max-width: 558px) {
+      h1 {
+        font-size: 18px;
+      }
+    }
   }
 }
