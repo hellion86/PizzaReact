@@ -41,7 +41,7 @@ body {
   &__items {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: 1fr 1fr;
+    // grid-template-rows: 1fr 1fr;
     column-gap: 20px;
     justify-items: center;
 

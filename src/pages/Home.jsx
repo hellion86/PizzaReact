@@ -3,19 +3,28 @@ import Categories from '../Components/Categories';
 import PizzaCard from '../Components/PizzaBlock';
 import Skeleton from '../Components/PizzaBlock/skeleton';
 import Sort from '../Components/Sort';
+import Pagination from '../Components/Pagination';
 import { makeApiPath } from '../assets/config';
 
-const Home = () => {
+const Home = ({ searchValue }) => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(1);
   const [sortType, setSortType] = React.useState({
     title: 'популярности (DESC)',
     value: 'rating',
     order: 'desc',
   });
 
-  const fetchApiPath = makeApiPath(categoryId, sortType);
+  const fetchApiPath = makeApiPath(
+    categoryId,
+    sortType,
+    searchValue,
+    currentPage
+  );
+  const skeletons = [...Array(6).keys()].map((i) => <Skeleton key={i} />);
+  const pizzas = items.map((obj) => <PizzaCard key={obj.id} {...obj} />);
 
   React.useEffect(() => {
     setIsLoading(true);
@@ -28,7 +37,7 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, fetchApiPath]);
+  }, [categoryId, sortType, searchValue, fetchApiPath, currentPage]);
 
   return (
     <div className="container">
@@ -37,11 +46,8 @@ const Home = () => {
         <Sort value={sortType} onChangeSort={setSortType} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading
-          ? [...Array(6).keys()].map((i) => <Skeleton key={i} />)
-          : items.map((obj) => <PizzaCard key={obj.id} {...obj} />)}
-      </div>
+      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 };
