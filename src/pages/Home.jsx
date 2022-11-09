@@ -5,8 +5,10 @@ import Skeleton from '../Components/PizzaBlock/skeleton';
 import Sort from '../Components/Sort';
 import Pagination from '../Components/Pagination';
 import { makeApiPath } from '../assets/config';
+import { AppContext } from '../assets/config';
 
-const Home = ({ searchValue }) => {
+const Home = () => {
+  const { searchValue } = React.useContext(AppContext);
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [categoryId, setCategoryId] = React.useState(0);
@@ -23,7 +25,7 @@ const Home = ({ searchValue }) => {
     searchValue,
     currentPage
   );
-  const skeletons = [...Array(6).keys()].map((i) => <Skeleton key={i} />);
+  const skeletons = [...Array(4).keys()].map((i) => <Skeleton key={i} />);
   const pizzas = items.map((obj) => <PizzaCard key={obj.id} {...obj} />);
 
   React.useEffect(() => {
