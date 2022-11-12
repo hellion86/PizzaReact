@@ -4,24 +4,25 @@ import PizzaCard from '../Components/PizzaBlock';
 import Skeleton from '../Components/PizzaBlock/skeleton';
 import Sort from '../Components/Sort';
 import Pagination from '../Components/Pagination';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoire, setSort } from '../redux/slices/filterSlice';
 import { makeApiPath } from '../assets/config';
-import { AppContext } from '../assets/config';
 
 const Home = () => {
-  const { searchValue } = React.useContext(AppContext);
+  const { categorie, searchValue, sortValue } = useSelector(
+    (state) => state.filter
+  );
+  const dispatch = useDispatch();
+  const setCat = (index) => dispatch(setCategoire(index));
+  const setSorting = (sort) => dispatch(setSort(sort));
+
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [categoryId, setCategoryId] = React.useState(0);
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [sortType, setSortType] = React.useState({
-    title: 'популярности (DESC)',
-    value: 'rating',
-    order: 'desc',
-  });
 
   const fetchApiPath = makeApiPath(
-    categoryId,
-    sortType,
+    categorie,
+    sortValue,
     searchValue,
     currentPage
   );
@@ -39,13 +40,13 @@ const Home = () => {
         setIsLoading(false);
       });
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, fetchApiPath, currentPage]);
+  }, [categorie, sortValue, searchValue, fetchApiPath, currentPage]);
 
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onChangeCategory={setCategoryId} />
-        <Sort value={sortType} onChangeSort={setSortType} />
+        <Categories value={categorie} setCat={setCat} />
+        <Sort value={sortValue} onChangeSort={setSorting} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
