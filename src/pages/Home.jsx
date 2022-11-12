@@ -1,10 +1,10 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Categories from '../Components/Categories';
 import PizzaCard from '../Components/PizzaBlock';
 import Skeleton from '../Components/PizzaBlock/skeleton';
 import Sort from '../Components/Sort';
 import Pagination from '../Components/Pagination';
-import { useSelector, useDispatch } from 'react-redux';
 import { setCategoire, setSort } from '../redux/slices/filterSlice';
 import { makeApiPath } from '../assets/config';
 
