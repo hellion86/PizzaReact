@@ -1,24 +1,29 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
 import Categories from '../Components/Categories';
 import PizzaCard from '../Components/PizzaBlock';
 import Skeleton from '../Components/PizzaBlock/skeleton';
 import Sort from '../Components/Sort';
 import Pagination from '../Components/Pagination';
-import { setCategoire, setSort } from '../redux/slices/filterSlice';
+import {
+  setCategoire,
+  setSort,
+  setCurrentPage,
+} from '../redux/slices/filterSlice';
 import { makeApiPath } from '../assets/config';
 
 const Home = () => {
-  const { categorie, searchValue, sortValue } = useSelector(
+  const { categorie, searchValue, sortValue, currentPage } = useSelector(
     (state) => state.filter
   );
   const dispatch = useDispatch();
   const setCat = (index) => dispatch(setCategoire(index));
   const setSorting = (sort) => dispatch(setSort(sort));
+  const setPagination = (index) => dispatch(setCurrentPage(index));
 
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = React.useState(1);
 
   const fetchApiPath = makeApiPath(
     categorie,
@@ -31,14 +36,10 @@ const Home = () => {
 
   React.useEffect(() => {
     setIsLoading(true);
-    fetch(fetchApiPath)
-      .then((data) => {
-        return data.json();
-      })
-      .then((data) => {
-        setItems(data);
-        setIsLoading(false);
-      });
+    axios.get(fetchApiPath).then((response) => {
+      setItems(response.data);
+      setIsLoading(false);
+    });
     window.scrollTo(0, 0);
   }, [categorie, sortValue, searchValue, fetchApiPath, currentPage]);
 
@@ -50,7 +51,7 @@ const Home = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination onChangePage={(number) => setPagination(number)} />
     </div>
   );
 };
