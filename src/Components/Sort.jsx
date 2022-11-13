@@ -1,12 +1,12 @@
 import React from 'react';
 
-const sortOptions = [
-  { title: 'популярности (DESC)', value: 'rating', order: 'desc' },
-  { title: 'популярности (ASC)', value: 'rating', order: 'asc' },
-  { title: 'цене (DESC)', value: 'price', order: 'desc' },
-  { title: 'цене (ASC)', value: 'price', order: 'asc' },
-  { title: 'алфавиту (DESC)', value: 'title', order: 'desc' },
-  { title: 'алфавиту (ASC)', value: 'title', order: 'asc' },
+export const sortOptions = [
+  { title: 'популярности (DESC)', property: 'rating', order: 'desc' },
+  { title: 'популярности (ASC)', property: 'rating', order: 'asc' },
+  { title: 'цене (DESC)', property: 'price', order: 'desc' },
+  { title: 'цене (ASC)', property: 'price', order: 'asc' },
+  { title: 'алфавиту (DESC)', property: 'title', order: 'desc' },
+  { title: 'алфавиту (ASC)', property: 'title', order: 'asc' },
 ];
 const Sort = ({ value, onChangeSort }) => {
   const [isOpen, setOpen] = React.useState(false);
