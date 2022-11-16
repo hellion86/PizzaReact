@@ -10,14 +10,28 @@ export const sortOptions = [
 ];
 const Sort = ({ value, onChangeSort }) => {
   const [isOpen, setOpen] = React.useState(false);
+  const sortRef = React.useRef(null);
 
   const selectMenu = (obj) => {
     onChangeSort(obj);
     setOpen(false);
   };
 
+  React.useEffect(() => {
+    const closeSortMenu = (e) => {
+      if (!e.path.includes(sortRef.current)) {
+        setOpen(false);
+      }
+    };
+    document.body.addEventListener('click', (e) => closeSortMenu(e));
+    // remove listener after unmount component
+    return () => {
+      document.body.removeEventListener('click', (e) => closeSortMenu(e));
+    };
+  }, []);
+
   return (
-    <div className="sort">
+    <div className="sort" ref={sortRef}>
       <div className="sort__label">
         <svg
           width="10"
