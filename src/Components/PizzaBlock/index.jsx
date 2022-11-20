@@ -9,8 +9,8 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0);
   const { items } = useSelector((state) => state.cart);
-
-  const pizzaCount = items.find((item) => item.id === id);
+  const pizza = items.find((item) => item.id === id);
+  const pizzaCount = pizza ? pizza.count : 0;
 
   const addPizza = () => {
     const item = {
@@ -19,7 +19,7 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
       price,
       imageUrl,
       type: typeNames[activeType],
-      size: activeSize,
+      size: sizes[activeSize],
     };
     dispatch(addItem(item));
   };
@@ -71,7 +71,7 @@ const PizzaCard = ({ id, title, price, imageUrl, sizes, types }) => {
             />
           </svg>
           <span>Добавить</span>
-          <i>{(pizzaCount && pizzaCount.count) || 0}</i>
+          {pizzaCount > 0 ? <i>{pizzaCount}</i> : ' '}
         </button>
       </div>
     </div>
