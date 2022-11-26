@@ -2,7 +2,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import qs from 'qs';
 import Categories from '../Components/Categories';
 import PizzaCard from '../Components/PizzaBlock';
@@ -17,26 +16,24 @@ import {
 } from '../redux/slices/filterSlice';
 import { makeApiPath } from '../assets/config';
 import { sortOptions } from '../Components/Sort';
+import { fetchPizzas } from '../redux/slices/pizzasSlice';
 
 const Home = () => {
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
-  const [isLoading, setIsLoading] = React.useState(true);
 
   // get data from redux
   const { categorie, searchValue, sortValue, currentPage } = useSelector(
     (state) => state.filter
   );
+  const { items, status } = useSelector((state) => state.pizzas);
   const dispatch = useDispatch();
 
   // make help functions to manage redux state
   const setCat = (index) => dispatch(setCategoire(index));
   const setSorting = (sort) => dispatch(setSort(sort));
   const setPagination = (index) => dispatch(setCurrentPage(index));
-
-  // pizzas aray
-  const [items, setItems] = React.useState([]);
 
   // make fake array of componets for skeleton
   const skeletons = [...Array(4).keys()].map((i) => <Skeleton key={i} />);
@@ -53,13 +50,7 @@ const Home = () => {
   );
 
   // fetch pizza
-  const fetchPizzas = () => {
-    setIsLoading(true);
-    axios.get(fetchApiPath).then((response) => {
-      setItems(response.data);
-      setIsLoading(false);
-    });
-  };
+  // const getPizzas = () =>  dispatch(fetchPizzas(fetchApiPath));
 
   // if first render ends - check url params and save to redux
   React.useEffect(() => {
@@ -83,7 +74,8 @@ const Home = () => {
   React.useEffect(() => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
-      fetchPizzas();
+      // getPizzas();
+      dispatch(fetchPizzas(fetchApiPath));
     }
     isSearch.current = false;
   }, [categorie, sortValue, searchValue, currentPage]);
@@ -108,7 +100,17 @@ const Home = () => {
         <Sort value={sortValue} onChangeSort={setSorting} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === 'error' ? (
+        <div className="content__error-info">
+          <h2>Ошибка загрузки 🤣</h2>
+          <p>Пицц пока нету, но вы не переживайте, настряпаем!</p>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === 'success' ? pizzas : skeletons}
+        </div>
+      )}
+
       <Pagination onChangePage={(number) => setPagination(number)} />
     </div>
   );
