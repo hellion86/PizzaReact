@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const selectCart = (state) => state.cart;
+export const selectCartItemById = (id) => (state) =>
+  state.cart.items.find((obj) => obj.id === id);
+
 const initialState = {
   items: [],
   totalPrice: 0,

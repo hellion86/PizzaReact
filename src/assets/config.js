@@ -11,3 +11,5 @@ export const makeApiPath = (categorie, sortType, searchValue, currentPage) => {
   const paginate = `?page=${currentPage}&limit=4&`;
   return `${apiPath}${paginate}${cat}${sort}`;
 };
+
+//Selectors

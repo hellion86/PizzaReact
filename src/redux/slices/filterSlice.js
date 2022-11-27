@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export const selectFilters = (state) => state.filter;
+
 const initialState = {
   categorie: 0,
   currentPage: 1,

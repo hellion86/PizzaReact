@@ -13,10 +13,11 @@ import {
   setSort,
   setCurrentPage,
   setFilters,
+  selectFilters,
 } from '../redux/slices/filterSlice';
 import { makeApiPath } from '../assets/config';
 import { sortOptions } from '../Components/Sort';
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,10 +25,9 @@ const Home = () => {
   const isMounted = React.useRef(false);
 
   // get data from redux
-  const { categorie, searchValue, sortValue, currentPage } = useSelector(
-    (state) => state.filter
-  );
-  const { items, status } = useSelector((state) => state.pizzas);
+  const { categorie, searchValue, sortValue, currentPage } =
+    useSelector(selectFilters);
+  const { items, status } = useSelector(selectPizzas);
   const dispatch = useDispatch();
 
   // make help functions to manage redux state
@@ -48,9 +48,6 @@ const Home = () => {
     searchValue,
     currentPage
   );
-
-  // fetch pizza
-  // const getPizzas = () =>  dispatch(fetchPizzas(fetchApiPath));
 
   // if first render ends - check url params and save to redux
   React.useEffect(() => {
