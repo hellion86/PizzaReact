@@ -110,6 +110,12 @@ body {
   }
 }
 
+.container__full {
+  width: $container-width;
+  margin: 0 auto;
+  display: flex;
+}
+
 .cart {
   &__top {
     display: flex;
@@ -373,4 +379,19 @@ body {
       font-size: 18px;
     }
   }
+}
+
+// my css
+
+.short-description {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgb(92, 99, 112);
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 30px;
+}
+
+.options {
+  margin-bottom: 60px;
 }
