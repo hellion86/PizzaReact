@@ -5,12 +5,15 @@
   text-align: center;
   margin-bottom: 65px;
 
-  // &:not(:nth-of-type(4n)) {
-  //   margin-right: 35px;
-  // }
-
   &__image {
     width: 260px;
+    overflow: hidden;
+    transition: all 0.4s;
+    margin-bottom: 30px;
+  }
+
+  &__image:hover {
+    transform: scale(1.25);
   }
 
   &__title {
