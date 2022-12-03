@@ -1,4 +1,3 @@
-import React from 'react';
 import ContentLoader from 'react-content-loader';
 
 const Skeleton = () => (
@@ -18,5 +17,7 @@ const Skeleton = () => (
     <rect x="125" y="427" rx="23" ry="23" width="153" height="45" />
   </ContentLoader>
 );
+
+export const previewSkeleton = () => {};
 
 export default Skeleton;

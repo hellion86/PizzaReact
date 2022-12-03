@@ -11,11 +11,16 @@ const FullPizza = () => {
   const { id } = useParams();
   const nav = useNavigate();
 
-  const [pizza, setPizza] = React.useState(null);
+  const [pizza, setPizza] = React.useState<{
+    imageUrl: string;
+    title: string;
+    sizes: number[];
+  }>();
   React.useEffect(() => {
     const fethPizza = async () => {
       try {
         const { data } = await axios.get(`${apiPath}/${id}`);
+        console.log(data);
         setPizza(data);
       } catch (error) {
         nav('/');
@@ -35,11 +40,9 @@ const FullPizza = () => {
     };
     dispatch(addItem(item));
   };
-
   if (!pizza) {
-    return <></>;
+    return <h1>Загрузко</h1>;
   }
-
   return (
     <div className="container__full">
       <img src={pizza.imageUrl} alt="pizza" />

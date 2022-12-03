@@ -1,13 +1,12 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Cart from './pages/Cart';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
-import './scss/app.scss';
 import FullPizza from './pages/FullPizza';
 import MainLayout from './layout/MainLayout';
+import './scss/app.scss';
 
-function App() {
+const App = () => {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
@@ -18,6 +17,6 @@ function App() {
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;
