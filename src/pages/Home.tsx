@@ -10,7 +10,6 @@ import Sort from '../Components/Sort';
 import Pagination from '../Components/Pagination';
 import {
   setCategoire,
-  setSort,
   setCurrentPage,
   setFilters,
   selectFilters,
@@ -31,15 +30,17 @@ const Home = () => {
   const dispatch = useDispatch();
 
   // make help functions to manage redux state
-  const setCat = (index) => dispatch(setCategoire(index));
-  const setSorting = (sort) => dispatch(setSort(sort));
-  const setPagination = (index) => dispatch(setCurrentPage(index));
+  const setCat = (index: number) => dispatch(setCategoire(index));
+  const setPagination = (index: number) => dispatch(setCurrentPage(index));
 
   // make fake array of componets for skeleton
-  const skeletons = [...Array(4).keys()].map((i) => <Skeleton key={i} />);
+  // const skeletons = [...Array(4).keys()].map((i) => <Skeleton key={i} />);
+  const skeletons = Array.from(Array(4).keys()).map((i) => (
+    <Skeleton key={i} />
+  ));
 
   // make pizzas components
-  const pizzas = items.map((obj) => <PizzaCard key={obj.id} {...obj} />);
+  const pizzas = items.map((obj: any) => <PizzaCard key={obj.id} {...obj} />);
 
   // make url to fetch
   const fetchApiPath = makeApiPath(
@@ -72,6 +73,7 @@ const Home = () => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
       // getPizzas();
+      // @ts-ignore
       dispatch(fetchPizzas(fetchApiPath));
     }
     isSearch.current = false;
@@ -94,7 +96,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categorie} setCat={setCat} />
-        <Sort value={sortValue} onChangeSort={setSorting} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (
@@ -110,7 +112,7 @@ const Home = () => {
 
       <Pagination
         currentPage={currentPage}
-        onChangePage={(number) => setPagination(number)}
+        onChangePage={(page: number) => setPagination(page)}
       />
     </div>
   );
