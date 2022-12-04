@@ -1,6 +1,9 @@
-import React from 'react';
+type CategoriesProps = {
+  value: number;
+  setCat: any;
+};
 
-const Categories = ({ value, setCat }) => {
+const Categories: React.FC<CategoriesProps> = ({ value, setCat }) => {
   const categories = [
     'Все',
     'Мясные',

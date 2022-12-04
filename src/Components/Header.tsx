@@ -1,4 +1,3 @@
-import React from 'react';
 import LogoSvg from '../assets/img/pizza-logo.svg';
 import Search from './Search';
 import { useSelector } from 'react-redux';

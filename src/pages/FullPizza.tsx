@@ -20,7 +20,6 @@ const FullPizza = () => {
     const fethPizza = async () => {
       try {
         const { data } = await axios.get(`${apiPath}/${id}`);
-        console.log(data);
         setPizza(data);
       } catch (error) {
         nav('/');

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const selectFilters = (state) => state.filter;
+export const selectSort = (state) => state.filter.sortValue;
 
 const initialState = {
   categorie: 0,

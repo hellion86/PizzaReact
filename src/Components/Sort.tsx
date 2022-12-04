@@ -1,6 +1,14 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectSort, setSort } from '../redux/slices/filterSlice';
 
-export const sortOptions = [
+type SortItem = {
+  title: string;
+  property: string;
+  order: string;
+};
+
+export const sortOptions: SortItem[] = [
   { title: 'популярности (DESC)', property: 'rating', order: 'desc' },
   { title: 'популярности (ASC)', property: 'rating', order: 'asc' },
   { title: 'цене (DESC)', property: 'price', order: 'desc' },
@@ -8,17 +16,19 @@ export const sortOptions = [
   { title: 'алфавиту (DESC)', property: 'title', order: 'desc' },
   { title: 'алфавиту (ASC)', property: 'title', order: 'asc' },
 ];
-const Sort = ({ value, onChangeSort }) => {
+const Sort = () => {
   const [isOpen, setOpen] = React.useState(false);
-  const sortRef = React.useRef(null);
+  const dispatch = useDispatch();
+  const value = useSelector(selectSort);
+  const sortRef = React.useRef<HTMLDivElement | null>(null);
 
-  const selectMenu = (obj) => {
-    onChangeSort(obj);
+  const selectMenu = (obj: SortItem) => {
+    dispatch(setSort(obj));
     setOpen(false);
   };
 
   React.useEffect(() => {
-    const closeSortMenu = (e) => {
+    const closeSortMenu = (e: any) => {
       if (!e.path.includes(sortRef.current)) {
         setOpen(false);
       }

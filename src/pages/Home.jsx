@@ -108,7 +108,10 @@ const Home = () => {
         </div>
       )}
 
-      <Pagination onChangePage={(number) => setPagination(number)} />
+      <Pagination
+        currentPage={currentPage}
+        onChangePage={(number) => setPagination(number)}
+      />
     </div>
   );
 };

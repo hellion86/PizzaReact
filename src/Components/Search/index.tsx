@@ -7,8 +7,9 @@ import { setSearch } from '../../redux/slices/filterSlice.js';
 const Search = () => {
   const [localSearchValue, setLocalSearchValue] = React.useState('');
   const dispatch = useDispatch();
-  const input = React.useRef(null);
+  const input = React.useRef<HTMLInputElement>(null);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearch = React.useCallback(
     debounce((str) => {
       dispatch(setSearch(str));
@@ -19,10 +20,14 @@ const Search = () => {
   const clearSearch = () => {
     dispatch(setSearch(''));
     setLocalSearchValue('');
-    input.current.focus();
+    // if (input.current) {
+    //   input.current.focus();
+    // }
+    //  optional chaining "?" оператор опциональной последовательности
+    input.current?.focus();
   };
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: any) => {
     setLocalSearchValue(e.target.value);
     updateSearch(e.target.value);
   };
