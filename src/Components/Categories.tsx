@@ -1,18 +1,17 @@
 type CategoriesProps = {
   value: number;
-  setCat: any;
+  setCat: (i: number) => void;
 };
 
+const categories = [
+  'Все',
+  'Мясные',
+  'Вегетарианская',
+  'Гриль',
+  'Острые',
+  'Закрытые',
+];
 const Categories: React.FC<CategoriesProps> = ({ value, setCat }) => {
-  const categories = [
-    'Все',
-    'Мясные',
-    'Вегетарианская',
-    'Гриль',
-    'Острые',
-    'Закрытые',
-  ];
-
   return (
     <div className="categories">
       <ul>

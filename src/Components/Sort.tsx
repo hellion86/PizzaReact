@@ -28,8 +28,12 @@ const Sort = () => {
   };
 
   React.useEffect(() => {
-    const closeSortMenu = (e: any) => {
-      if (!e.path.includes(sortRef.current)) {
+    const closeSortMenu = (e: MouseEvent) => {
+      // Не можем отдать в тип e сразу изменный customEvent
+      // все addEventListener-ы ниже ожидают простой MouseEvent без path: Node[]
+      const customEvent = e as MouseEvent & { path: Node[] };
+
+      if (sortRef.current && !customEvent.path.includes(sortRef.current)) {
         setOpen(false);
       }
     };
