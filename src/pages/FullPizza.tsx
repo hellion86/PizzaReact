@@ -4,23 +4,31 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { apiPath } from '../assets/config';
-import { addItem } from '../redux/slices/cartSlice';
+import { addItem, CartItem } from '../redux/slices/cartSlice';
 
 const FullPizza = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const nav = useNavigate();
 
-  const [pizza, setPizza] = React.useState<{
-    imageUrl: string;
-    title: string;
-    sizes: number[];
-  }>();
+  const [pizza, setPizza] = React.useState<CartItem>();
+
   React.useEffect(() => {
     const fethPizza = async () => {
       try {
         const { data } = await axios.get(`${apiPath}/${id}`);
-        setPizza(data);
+        // console.log(data);
+
+        const item: CartItem = {
+          id: data?.id,
+          imageUrl: data?.imageUrl,
+          price: data?.price,
+          title: data?.title,
+          count: 1,
+          type: 'тонкая',
+          size: 30,
+        };
+        setPizza(item);
       } catch (error) {
         nav('/');
         alert('Такой питсы нетЪ!');
@@ -30,15 +38,6 @@ const FullPizza = () => {
     fethPizza();
   }, []);
 
-  const addPizza = () => {
-    console.log(pizza);
-    const item = {
-      ...pizza,
-      type: 'тонкое',
-      size: 30,
-    };
-    dispatch(addItem(item));
-  };
   if (!pizza) {
     return <h1>Загрузко</h1>;
   }
@@ -48,7 +47,7 @@ const FullPizza = () => {
       <div>
         <h2>{pizza.title}</h2>
         <div className="short-description">
-          Мясной Микс {pizza.sizes[1]} см, традиционное тесто, 600 г
+          Мясной Микс {pizza.size} см, традиционное тесто, 600 г
         </div>
         <div className="options">
           Запеченная буженина из свинины, острая чоризо, пикантная пепперони,
@@ -56,7 +55,7 @@ const FullPizza = () => {
         </div>
         <div className="cart__bottom-buttons">
           <button
-            onClick={addPizza}
+            onClick={() => dispatch(addItem(pizza))}
             className="button button--outline button--add"
           >
             <svg

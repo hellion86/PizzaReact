@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import Categories from '../Components/Categories';
 import PizzaCard from '../Components/PizzaBlock';
 import Skeleton from '../Components/PizzaBlock/skeleton';
-import Sort from '../Components/Sort';
+import Sorting from '../Components/Sort';
 import Pagination from '../Components/Pagination';
 import {
   setCategoire,
@@ -17,6 +17,7 @@ import {
 import { makeApiPath } from '../assets/config';
 import { sortOptions } from '../Components/Sort';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
+import { useAppDispatch } from '../redux/store';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Home = () => {
   const { categorie, searchValue, sortValue, currentPage } =
     useSelector(selectFilters);
   const { items, status } = useSelector(selectPizzas);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // make help functions to manage redux state
   const setCat = (index: number) => dispatch(setCategoire(index));
@@ -58,12 +59,16 @@ const Home = () => {
         (obj) => obj.property === params.sortProperty
       );
 
-      dispatch(
-        setFilters({
-          ...params,
-          sortValue,
-        })
-      );
+      if (sortValue) {
+        dispatch(
+          setFilters({
+            categorie: Number(params.categorie),
+            currentPage: Number(params.currentPage),
+            searchValue: '',
+            sortValue,
+          })
+        );
+      }
       isSearch.current = true;
     }
   }, []);
@@ -73,7 +78,7 @@ const Home = () => {
     window.scrollTo(0, 0);
     if (!isSearch.current) {
       // getPizzas();
-      // @ts-ignore
+
       dispatch(fetchPizzas(fetchApiPath));
     }
     isSearch.current = false;
@@ -96,7 +101,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categorie} setCat={setCat} />
-        <Sort />
+        <Sorting />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (

@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartEmpty from '../Components/CartEmpty';
-import CartItem from '../Components/CartItem';
+import CartCard from '../Components/CartCard';
 import { clearItems, removeItem, selectCart } from '../redux/slices/cartSlice';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();
   const { items, totalPrice, totalCount } = useSelector(selectCart);
 
-  const onClickRemovePizza = (id: number) => {
+  const onClickRemovePizza = (id: string) => {
     dispatch(removeItem(id));
   };
 
@@ -95,7 +95,7 @@ const Cart: React.FC = () => {
         </div>
         <div className="content__items">
           {items.map((item: any) => (
-            <CartItem
+            <CartCard
               key={item.id}
               removePizza={onClickRemovePizza}
               {...item}
