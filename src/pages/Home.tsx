@@ -31,9 +31,15 @@ const Home = () => {
   const dispatch = useAppDispatch();
 
   // make help functions to manage redux state
-  const setCat = (index: number) => dispatch(setCategoire(index));
-  const setPagination = (index: number) => dispatch(setCurrentPage(index));
+  const setCat = React.useCallback(
+    (index: number) => dispatch(setCategoire(index)),
+    []
+  );
 
+  const setPagination = React.useCallback(
+    (index: number) => dispatch(setCurrentPage(index)),
+    []
+  );
   // make fake array of componets for skeleton
   // const skeletons = [...Array(4).keys()].map((i) => <Skeleton key={i} />);
   const skeletons = Array.from(Array(4).keys()).map((i) => (
@@ -101,7 +107,7 @@ const Home = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categorie} setCat={setCat} />
-        <Sorting />
+        <Sorting value={sortValue} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (

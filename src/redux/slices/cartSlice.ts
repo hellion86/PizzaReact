@@ -52,9 +52,7 @@ export const cartSlice = createSlice({
       state.totalCount = calculateTotalCount(state);
     },
     removeItem: (state, action: PayloadAction<string>) => {
-      state.items = state.items.filter(
-        (item) => item.id !== action.payload
-      );
+      state.items = state.items.filter((item) => item.id !== action.payload);
       state.totalPrice = calculateTotalPrice(state);
       state.totalCount = calculateTotalCount(state);
     },
@@ -62,13 +60,7 @@ export const cartSlice = createSlice({
     minusItem: (state, action: PayloadAction<string>) => {
       const findItem = state.items.find((item) => item.id === action.payload);
       if (findItem) {
-        if (findItem.count === 1) {
-          state.items = state.items.filter(
-            (item) => item.id !== action.payload
-          );
-        } else {
-          findItem.count -= 1;
-        }
+        findItem.count -= 1;
       }
       state.totalPrice = calculateTotalPrice(state);
       state.totalCount = calculateTotalCount(state);

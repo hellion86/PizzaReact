@@ -1,6 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort, Sort } from '../redux/slices/filterSlice';
+import { useDispatch } from 'react-redux';
+import { setSort, Sort } from '../redux/slices/filterSlice';
 
 export const sortOptions: Sort[] = [
   { title: 'популярности (DESC)', property: 'rating', order: 'desc' },
@@ -10,14 +10,17 @@ export const sortOptions: Sort[] = [
   { title: 'алфавиту (DESC)', property: 'title', order: 'desc' },
   { title: 'алфавиту (ASC)', property: 'title', order: 'asc' },
 ];
-const Sorting = () => {
+
+type SortingProps = {
+  value: Sort;
+};
+
+const Sorting: React.FC<SortingProps> = React.memo(({ value }) => {
   const [isOpen, setOpen] = React.useState(false);
   const dispatch = useDispatch();
-  const value = useSelector(selectSort);
   const sortRef = React.useRef<HTMLDivElement | null>(null);
 
   const selectMenu = (obj: Sort) => {
-    console.log(obj);
     dispatch(setSort(obj));
     setOpen(false);
   };
@@ -74,6 +77,6 @@ const Sorting = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sorting;
