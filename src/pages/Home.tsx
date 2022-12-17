@@ -14,7 +14,7 @@ import {
   setFilters,
   selectFilters,
 } from '../redux/slices/filterSlice';
-import { makeApiPath } from '../assets/config';
+import { makeApiPath } from '../utils/config';
 import { sortOptions } from '../Components/Sort';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
 import { useAppDispatch } from '../redux/store';

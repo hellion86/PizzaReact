@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getCartFromLS } from '../../utils/getCartFromLS';
 import { RootState } from '../store';
 
-const calculateTotalPrice = (state: CartSliceState) =>
-  state.items.reduce((acc, item) => (acc += item.count * item.price), 0);
+const calculateTotalPrice = (items: CartItem[]): number =>
+  items.reduce((acc, pizza) => (acc += pizza.count * pizza.price), 0);
 
-const calculateTotalCount = (state: CartSliceState) =>
-  state.items.reduce((acc, item) => (acc += item.count), 0);
+const calculateTotalCount = (items: CartItem[]): number =>
+  items.reduce((acc, pizza) => (acc += pizza.count), 0);
 
 export const selectCart = (state: RootState) => state.cart;
 export const selectCartItemById = (id: string) => (state: RootState) =>
@@ -29,10 +30,12 @@ interface CartSliceState {
   totalCount: number;
 }
 
+const dataFromLS = getCartFromLS();
+
 const initialState: CartSliceState = {
-  items: [],
-  totalPrice: 0,
-  totalCount: 0,
+  items: dataFromLS,
+  totalPrice: calculateTotalPrice(dataFromLS),
+  totalCount: calculateTotalCount(dataFromLS),
 };
 
 export const cartSlice = createSlice({
@@ -48,13 +51,13 @@ export const cartSlice = createSlice({
       } else {
         state.items = [...state.items, { ...action.payload, count: 1 }];
       }
-      state.totalPrice = calculateTotalPrice(state);
-      state.totalCount = calculateTotalCount(state);
+      state.totalPrice = calculateTotalPrice(state.items);
+      state.totalCount = calculateTotalCount(state.items);
     },
     removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
-      state.totalPrice = calculateTotalPrice(state);
-      state.totalCount = calculateTotalCount(state);
+      state.totalPrice = calculateTotalPrice(state.items);
+      state.totalCount = calculateTotalCount(state.items);
     },
 
     minusItem: (state, action: PayloadAction<string>) => {
@@ -62,8 +65,8 @@ export const cartSlice = createSlice({
       if (findItem) {
         findItem.count -= 1;
       }
-      state.totalPrice = calculateTotalPrice(state);
-      state.totalCount = calculateTotalCount(state);
+      state.totalPrice = calculateTotalPrice(state.items);
+      state.totalCount = calculateTotalCount(state.items);
     },
     clearItems: (state) => {
       state.items = [];
