@@ -18,13 +18,14 @@ import { makeApiPath } from '../utils/config';
 import { sortOptions } from '../Components/Sort';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
 import { useAppDispatch } from '../redux/store';
-
+// import('add').then((add) => console.log(add(10, 20)));
 const Home = () => {
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
-
   // get data from redux
+  // import('../utils/math').then((math) => console.log(math.add(12, 12)));
+
   const { categorie, searchValue, sortValue, currentPage } =
     useSelector(selectFilters);
   const { items, status } = useSelector(selectPizzas);
