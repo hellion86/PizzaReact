@@ -3,11 +3,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import qs from 'qs';
-import Categories from '../Components/Categories';
-import PizzaCard from '../Components/PizzaBlock';
-import Skeleton from '../Components/PizzaBlock/skeleton';
-import Sorting from '../Components/Sort';
-import Pagination from '../Components/Pagination';
+
+import {
+  Pagination,
+  Sorting,
+  Skeleton,
+  PizzaCard,
+  Categories,
+} from '../Components';
+
 import {
   setCategoire,
   setCurrentPage,
@@ -15,7 +19,7 @@ import {
   selectFilters,
 } from '../redux/slices/filterSlice';
 import { makeApiPath } from '../utils/config';
-import { sortOptions } from '../Components/Sort';
+import { sortOptions } from '../Components/Sorting';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice';
 import { useAppDispatch } from '../redux/store';
 // import('add').then((add) => console.log(add(10, 20)));
