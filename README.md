@@ -1,6 +1,6 @@
 ## Description
 
-🍕 React pizza chat is a simple react store. You can add items to cart/filter it and etc.
+🍕 React pizza is a simple react store. You can add items to cart/filter it and etc.
 
 ### 1. Install dependencies:
 
